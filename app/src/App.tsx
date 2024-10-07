@@ -1,14 +1,14 @@
 
 import './App.css'
+import Navbar from './Components/Navbar/Navbar.tsx'
 
 function App() {
   
 
   return (
-    <></>
-  //<navbar></navbar>
-  //<contents></contents>
-  //<footer></footer>
+    <>
+   <Navbar></Navbar>
+    </>
   )
 }
 
