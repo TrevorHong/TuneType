@@ -9,7 +9,7 @@ function Modes() {
     <nav className = "modesNav">
         <ul>
             {openModes && <DropdownMenu/>}
-            <li><Link to = "/" onClick={() => setopenModes((prev) => !prev)}>Modes</Link></li>
+            <li><a onClick={() => setopenModes((prev) => !prev)}>Modes</a></li>
             <li><Link to = "/" >Easy</Link></li>
             <li><Link to = "/" >Medium</Link></li>
             <li><Link to = "/" >Hard</Link></li>  
