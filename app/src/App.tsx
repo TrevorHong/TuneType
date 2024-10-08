@@ -6,6 +6,7 @@ import {Route, Routes} from "react-router-dom"
 import Profile from './pages/Profile.tsx'
 import Statistics from './pages/Statistics.tsx'
 import Settings from './pages/Settings.tsx'
+import Typing from './Components/TypingMenu/Typing.tsx'
 
 function App() {
 
@@ -19,9 +20,8 @@ function App() {
       <Route path = "/profile" element = {<Profile/>}></Route>
     </Routes>
    </div>
-  
-   
    <Modes/>
+   <Typing></Typing>
     </>
   )
 }
