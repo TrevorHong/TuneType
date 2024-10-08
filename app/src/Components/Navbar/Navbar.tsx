@@ -1,16 +1,18 @@
 import './Navbar.css'
+import {Link} from 'react-router-dom'
 
 function Navbar() {
-  return (<nav className = "nav">
+  return (
+  <nav className = "nav">
     <a href = "/" className="Title">Tune Type</a>
     <ul>
-        <li><a href = "/" >mode 1</a></li>
-        <li><a href = "/" >mode 2</a></li>
-        <li><a href = "/" >mode 3</a></li>  
+        <li><Link to = "/statistics" >Statistics</Link></li>
+        <li><Link to = "/settings" >Setting</Link></li>
+        <li><Link to = "/profile" >Profile</Link></li>  
     </ul>
-
   </nav>
   )
 }
+
 
 export default Navbar
