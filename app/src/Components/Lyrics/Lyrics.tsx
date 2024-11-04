@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { getLyrics } from "@fantox01/lyrics-scraper";
-// import axios from 'axios';
+import axios from 'axios';
 
 
 const LyricsFetcher: React.FC = () => {
@@ -13,10 +13,14 @@ const LyricsFetcher: React.FC = () => {
   const fetchLyrics = async () => {
     try {
       setError(null); // Reset error
-      const data = await getLyrics(songTitle); // Fetch lyrics using the song title
-        // const data = axios.get(`https://cors-anywhere.herokuapp.com/https://genius.com/api/search/multi?per_page=1&q=$happy`);   this api will work from dev env, need to make the getLyrics function call this end point instead.
-      if (data) {
-        setLyrics(data); // Display lyrics in the textarea
+      // const data = await getLyrics(songTitle); // Fetch lyrics using the song title
+        // const songName = songTitle;
+      const response = await axios.get(`/api/get-lyrics?name=${songTitle}`);   //this api will work from dev env, need to make the getLyrics function call this end point instead.
+        // const data = axios.get(`/api/${songName}`);   //this api will work from dev env, need to make the getLyrics function call this end point instead.
+
+      if (response && response.data) {
+        setLyrics(response.data.body); // Display lyrics in the textarea
+        // console.log(data);
       } else {
         setError("Lyrics not found");
       }
