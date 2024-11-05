@@ -15,7 +15,7 @@ function Modes() {
 
 
     switch(location.pathname){
-        case'/NormalType' :
+        case '/NormalType' :
         return(
         <nav className = "modesNav">
             <ul>
@@ -27,6 +27,54 @@ function Modes() {
             </ul>
         </nav>
         )
+        case '/NormalType' :
+        return(
+        <nav className = "modesNav">
+            <ul>
+                {openModes && <DropdownMenu setopenModes = {setopenModes}/>}
+                <li><a onClick={() => setopenModes((prev) => !prev)}>Modes</a></li>
+                <li><Link to = "/NormalType/Easy" >Easy</Link></li>
+                <li><Link to = "/NormalType/Medium" >Medium</Link></li>
+                <li><Link to = "/NormalType/Hard" >Hard</Link></li>  
+            </ul>
+        </nav>
+        )
+        case '/NormalType/Easy' :
+        return(
+        <nav className = "modesNav">
+            <ul>
+                {openModes && <DropdownMenu setopenModes = {setopenModes}/>}
+                <li><a onClick={() => setopenModes((prev) => !prev)}>Modes</a></li>
+                <li><Link to = "/NormalType/Easy" >Easy</Link></li>
+                <li><Link to = "/NormalType/Medium" >Medium</Link></li>
+                <li><Link to = "/NormalType/Hard" >Hard</Link></li>  
+            </ul>
+        </nav>
+        )
+        case '/NormalType/Medium' :
+        return(
+        <nav className = "modesNav">
+            <ul>
+                {openModes && <DropdownMenu setopenModes = {setopenModes}/>}
+                <li><a onClick={() => setopenModes((prev) => !prev)}>Modes</a></li>
+                <li><Link to = "/NormalType/Easy" >Easy</Link></li>
+                <li><Link to = "/NormalType/Medium" >Medium</Link></li>
+                <li><Link to = "/NormalType/Hard" >Hard</Link></li>  
+            </ul>
+        </nav>
+        )
+        case '/NormalType/Hard' :
+            return(
+            <nav className = "modesNav">
+                <ul>
+                    {openModes && <DropdownMenu setopenModes = {setopenModes}/>}
+                    <li><a onClick={() => setopenModes((prev) => !prev)}>Modes</a></li>
+                    <li><Link to = "/NormalType/Easy" >Easy</Link></li>
+                    <li><Link to = "/NormalType/Medium" >Medium</Link></li>
+                    <li><Link to = "/NormalType/Hard" >Hard</Link></li>  
+                </ul>
+            </nav>
+            )
         default:
         return(
             <nav className = "modesNav">
