@@ -8,9 +8,6 @@ import Settings from './pages/Settings.tsx'
 import MusicType from './pages/MusicType.tsx'
 import NormalType from './pages/NormalType.tsx'
 import Modes from './Components/Modes/Modes.tsx'
-import Medium from './pages/Diffculties/Medium.tsx'
-import Hard from './pages/Diffculties/Hard.tsx'
-import Easy from './pages/Diffculties/Easy.tsx'
 
 
 function App() {
@@ -26,9 +23,9 @@ function App() {
       <Route path = "/profile" element = {<Profile/>}></Route>
       <Route path = "/MusicType" element = {<MusicType/>}></Route>
       <Route path = "/NormalType" element = {<NormalType/>}>
-        <Route path = "/NormalType/Easy" element = {<Easy/>}/>
-        <Route path = "/NormalType/Medium" element = {<Medium/>}/>
-        <Route path = "/NormalType/Hard" element = {<Hard/>}/>
+        <Route path = "/NormalType/Easy"/>
+        <Route path = "/NormalType/Medium"/>
+        <Route path = "/NormalType/Hard"/>
       </Route>
     </Routes>
    </div>

@@ -11,8 +11,11 @@ function Modes() {
         console.log(location.pathname + " hello this is test");
     }, [location]);
 
-    return (
-        <nav className="modesNav">
+
+
+    switch(location.pathname){
+        case'/NormalType/Easy':
+        return(<nav className="modesNav">
             <ul>
                 {openModes && <DropdownMenu setopenModes={setOpenModes} />}
                 <li><a onClick={() => setOpenModes(prev => !prev)}>Modes</a></li>
@@ -20,8 +23,38 @@ function Modes() {
                 <li><Link to="/NormalType/Medium">Medium</Link></li>
                 <li><Link to="/NormalType/Hard">Hard</Link></li>
             </ul>
-        </nav>
-    );
+        </nav>)
+        case'/NormalType/Medium':
+        return( <nav className="modesNav">
+            <ul>
+                {openModes && <DropdownMenu setopenModes={setOpenModes} />}
+                <li><a onClick={() => setOpenModes(prev => !prev)}>Modes</a></li>
+                <li><Link to="/NormalType/Easy">Easy</Link></li>
+                <li><Link to="/NormalType/Medium">Medium</Link></li>
+                <li><Link to="/NormalType/Hard">Hard</Link></li>
+            </ul>
+        </nav>)
+        case'/NormalType/Hard':
+        return( <nav className="modesNav">
+            <ul>
+                {openModes && <DropdownMenu setopenModes={setOpenModes} />}
+                <li><a onClick={() => setOpenModes(prev => !prev)}>Modes</a></li>
+                <li><Link to="/NormalType/Easy">Easy</Link></li>
+                <li><Link to="/NormalType/Medium">Medium</Link></li>
+                <li><Link to="/NormalType/Hard">Hard</Link></li>
+            </ul>
+        </nav>)
+        default:
+        return(
+            <nav className="modesNav">
+              <ul>
+                {openModes && <DropdownMenu setopenModes={setOpenModes} />}
+                <li><a onClick={() => setOpenModes(prev => !prev)}>Modes</a></li>
+            </ul>
+            </nav>)
+    }
+
+   
 }
 
 export default Modes;
