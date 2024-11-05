@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import SavedStudyCard from '../Components/SavedStudyCards/SavedStudyCard';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -35,7 +34,7 @@ function StudyingActivity() {
     
     const initializeReplacement = () => {
         setCurrentText(text); // Set the text to be processed
-        setKeywords(keywordInput.split(',').map(word => word.trim())); // Split keywords by commas and trim spaces
+        setKeywords(parseKeywords(keywordInput)); // Split keywords by commas and trim spaces
     };
     
     const removeNextKeyword = () => {
