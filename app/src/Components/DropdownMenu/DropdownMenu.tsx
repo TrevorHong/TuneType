@@ -1,4 +1,4 @@
-import React from 'react'
+
 import "./DropdownMenu.css"
 import {Link} from 'react-router-dom'
 
@@ -16,8 +16,8 @@ function DropdownMenu({ setopenModes }: DropdownMenuProps) {
     <div className='Dropdown-container'>
         <ul>
             <li><Link to = '/MusicType' onClick={handleClick} >Music Mode</Link></li>
-            <li><Link to = '/' onClick={handleClick}>mode 2</Link></li>
-            <li><Link to = '/' onClick={handleClick}>mode 3</Link></li>
+            <li><Link to = '/NormalType' onClick={handleClick}>Normal Type</Link></li>
+            <li><Link to = '/' onClick={handleClick}>Study Type</Link></li>
         </ul>
     </div>
   )
