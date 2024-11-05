@@ -1,41 +1,63 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './Typing.css';
 import Random from './Random';
+import { useLocation } from 'react-router-dom';
 
 const Typing = () => {
   const [input, setInput] = useState('');
+  const [paragraph, setParagraph] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
-  const { paragraph } = Random();
+  
+  const location = useLocation();
+  
+  // Define the maximum length for different difficulty levels
+  const difficultyLevels: Record<string, number> = {
+    '/NormalType/Easy': 7,
+    '/NormalType/Medium': 10,
+    '/NormalType/Hard': 14,
+  };
 
+  const maxLength = difficultyLevels[location.pathname as keyof typeof difficultyLevels] || 0;
+
+  // Handle input change in the textarea
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
   };
 
+  // Focus on the text area when clicking the clickable area
   const handleClick = () => {
     if (textareaRef.current) {
       textareaRef.current.focus();
     }
   };
 
+  // Calculate cursor position based on input length
   const getCursorPosition = () => {
     if (paragraphRef.current) {
-      const cursorIndex = input.length; // Position the cursor at the end of the input
+      const cursorIndex = input.length;
       const span = paragraphRef.current.children[cursorIndex] as HTMLElement;
       if (span) {
         const { offsetLeft, offsetTop } = span;
-        return { left: offsetLeft, top: offsetTop + 4 }; // Adjust this offset for alignment
+        return { left: offsetLeft, top: offsetTop + 4 };
       }
     }
     return { left: 0, top: 0 };
   };
-  
-  
 
+  // Calculate cursor position
   const cursorPosition = getCursorPosition();
+
+  // Effect to reset input and fetch new paragraph when the location changes
+  useEffect(() => {
+    setInput('');
+    setParagraph('');
+  }, [location.pathname]);
 
   return (
     <div className="App">
+      <Random maxLength={maxLength} setParagraph={setParagraph} />
+
       <p className="paragraph" ref={paragraphRef}>
         {paragraph.split('').map((char, index) => (
           <span
@@ -57,7 +79,6 @@ const Typing = () => {
         cols={50}
         className="hidden-textarea"
       />
-      {/* Blinking line */}
       <div
         className="blinking-cursor"
         style={{
