@@ -103,7 +103,7 @@
     background-color: white;
     animation: blink 1s step-start infinite;
     pointer-events: none;
-    transform: translateY(15px); /* Adjust this value to fine-tune alignment */
+    transform: translateY(37px); /* Adjust this value to fine-tune alignment */
   }
   
   
@@ -112,4 +112,13 @@
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
   }
+
+  .Timer{
+    color: white;
+    display: flex;
+    content: left;
+  }
   
+.clickable-area{
+  background-color: rgb(137, 137, 106);
+}

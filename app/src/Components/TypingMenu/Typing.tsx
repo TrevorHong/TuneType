@@ -7,11 +7,27 @@ const Typing = () => {
   const [input, setInput] = useState('');
   const [paragraph, setParagraph] = useState('');
   const [WPM, setWPM] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   
   const location = useLocation();
+
+  const [count, setCount] = useState(60);
+
+   
+  useEffect(() => {
+    let interval: string | number | NodeJS.Timeout | undefined;
+    if (isRunning) {
+        interval = setInterval(() => {
+            setCount(prevCount => prevCount - 1);
+        }, 1000);
+    }
+
+    // Cleanup the interval when the counter stops or component unmounts
+    return () => clearInterval(interval);
+}, [isRunning]);
   
   // Define the maximum length for different difficulty levels
   const difficultyLevels: Record<string, number> = {
@@ -29,6 +45,7 @@ const Typing = () => {
 
   // Focus on the text area when clicking the clickable area
   const handleClick = () => {
+    setIsRunning(true);
     if (textareaRef.current) {
       textareaRef.current.focus();
     }
@@ -59,7 +76,7 @@ const Typing = () => {
   return (
     <div className="App">
       <Random maxLength={maxLength} setParagraph={setParagraph} />
-
+      <div className = "Timer">{count}</div>
       <p className="paragraph" ref={paragraphRef}>
         {paragraph.split('').map((char, index) => (
           <span
@@ -88,6 +105,7 @@ const Typing = () => {
           top: cursorPosition.top,
         }}
       />
+      
     </div>
   );
 };
