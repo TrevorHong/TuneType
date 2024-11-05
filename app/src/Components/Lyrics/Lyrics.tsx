@@ -23,8 +23,15 @@ const LyricsFetcher: React.FC<LyricsProps> = ({onLyricsUpdate}) => {
   const [lyrics, setLyrics] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
+  const cleanLyrics = (lyrics: string): string => {
+    // Regular expression to remove text inside [] and ()
+    return lyrics.replace(/\[.*?\]|\(.*?\)/g, '').trim();
+  };
+  
+
   // Function to handle form submission and fetch lyrics
   const fetchLyrics = async () => {
+    
     try {
       setError(null); // Reset error
       // const data = await getLyrics(songTitle); // Fetch lyrics using the song title
@@ -34,8 +41,9 @@ const LyricsFetcher: React.FC<LyricsProps> = ({onLyricsUpdate}) => {
 
       if (response && response.data) {
         const lyrics = response.data.body
+        const cleanedLyrics = cleanLyrics(lyrics);
         setLyrics(lyrics); // Display lyrics in the textarea
-        onLyricsUpdate(lyrics);
+        onLyricsUpdate(cleanedLyrics);
         // console.log(data);
       } else {
         setError("Lyrics not found");
