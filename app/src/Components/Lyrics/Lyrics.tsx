@@ -1,9 +1,23 @@
 import React, { useState } from "react";
+import { useEffect } from 'react';
 import { getLyrics } from "@fantox01/lyrics-scraper";
 import axios from 'axios';
 
+interface LyricsProps {
+  onLyricsUpdate: (lyrics: string) => void; // Prop to update lyrics
+}
 
-const LyricsFetcher: React.FC = () => {
+const LyricsFetcher: React.FC<LyricsProps> = ({onLyricsUpdate}) => {
+
+  // useEffect(() => {
+  //   // Simulate fetching lyrics (replace this with actual logic)
+  //   const fetchedLyrics = "Here are the lyrics of the song...";
+    
+  //   // Call the prop function to update the lyrics in the parent
+  //   onLyricsUpdate(fetchedLyrics);
+  // }, [onLyricsUpdate]); // Only runs on mount, or when onLyricsUpdate changes
+
+
   // State to store the song title input and fetched lyrics
   const [songTitle, setSongTitle] = useState<string>("");
   const [lyrics, setLyrics] = useState<string>("");
@@ -19,7 +33,9 @@ const LyricsFetcher: React.FC = () => {
         // const data = axios.get(`/api/${songName}`);   //this api will work from dev env, need to make the getLyrics function call this end point instead.
 
       if (response && response.data) {
-        setLyrics(response.data.body); // Display lyrics in the textarea
+        const lyrics = response.data.body
+        setLyrics(lyrics); // Display lyrics in the textarea
+        onLyricsUpdate(lyrics);
         // console.log(data);
       } else {
         setError("Lyrics not found");

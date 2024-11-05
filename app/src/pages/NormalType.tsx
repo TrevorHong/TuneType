@@ -5,7 +5,7 @@ import Typing from "../Components/TypingMenu/Typing"
 function NormalType() {
   return (
     <div>
-    <Typing></Typing>
+    <Typing paragraph="something"></Typing>
     </div>
   )
 }
