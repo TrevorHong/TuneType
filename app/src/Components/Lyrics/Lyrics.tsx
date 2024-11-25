@@ -1,22 +1,50 @@
 import React, { useState } from "react";
+import { useEffect } from 'react';
 import { getLyrics } from "@fantox01/lyrics-scraper";
-// import axios from 'axios';
+import axios from 'axios';
+
+interface LyricsProps {
+  onLyricsUpdate: (lyrics: string) => void; // Prop to update lyrics
+}
+
+const LyricsFetcher: React.FC<LyricsProps> = ({onLyricsUpdate}) => {
+
+  // useEffect(() => {
+  //   // Simulate fetching lyrics (replace this with actual logic)
+  //   const fetchedLyrics = "Here are the lyrics of the song...";
+    
+  //   // Call the prop function to update the lyrics in the parent
+  //   onLyricsUpdate(fetchedLyrics);
+  // }, [onLyricsUpdate]); // Only runs on mount, or when onLyricsUpdate changes
 
 
-const LyricsFetcher: React.FC = () => {
   // State to store the song title input and fetched lyrics
   const [songTitle, setSongTitle] = useState<string>("");
   const [lyrics, setLyrics] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
+  const cleanLyrics = (lyrics: string): string => {
+    // Regular expression to remove text inside [] and ()
+    return lyrics.replace(/\[.*?\]|\(.*?\)/g, '').trim();
+  };
+  
+
   // Function to handle form submission and fetch lyrics
   const fetchLyrics = async () => {
+    
     try {
       setError(null); // Reset error
-      const data = await getLyrics(songTitle); // Fetch lyrics using the song title
-        // const data = axios.get(`https://cors-anywhere.herokuapp.com/https://genius.com/api/search/multi?per_page=1&q=$happy`);   this api will work from dev env, need to make the getLyrics function call this end point instead.
-      if (data) {
-        setLyrics(data); // Display lyrics in the textarea
+      // const data = await getLyrics(songTitle); // Fetch lyrics using the song title
+        // const songName = songTitle;
+      const response = await axios.get(`/api/get-lyrics?name=${songTitle}`);   //this api will work from dev env, need to make the getLyrics function call this end point instead.
+        // const data = axios.get(`/api/${songName}`);   //this api will work from dev env, need to make the getLyrics function call this end point instead.
+
+      if (response && response.data) {
+        const lyrics = response.data.body
+        const cleanedLyrics = cleanLyrics(lyrics);
+        setLyrics(lyrics); // Display lyrics in the textarea
+        onLyricsUpdate(cleanedLyrics);
+        // console.log(data);
       } else {
         setError("Lyrics not found");
       }
