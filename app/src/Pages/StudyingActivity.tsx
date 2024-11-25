@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import ModalV2 from '../Components/ModalV2';
 
 import '/public/css/StudyingActivity.css'
 
@@ -57,10 +58,36 @@ function StudyingActivity() {
 
     // }
 
-    
+    const [submittedData, setSubmittedData] = useState<{ input1: string; input2: string } | null>(null);
+
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const handleSubmit = (input1: string, input2: string) => {
+        // setSubmittedData({ input1, input2 }); // Save the submitted data
+        setText(input1);
+        setKeywords(parseKeywords(input2));
+      };
+      
     return (
+
+
+
         <div id="main-content">
-            <div>            
+            <Button variant="contained" onClick = {handleOpen}>Add or adjust notes!</Button>
+            <ModalV2 open={open} handleClose={handleClose} handleSubmit={handleSubmit}></ModalV2>
+
+            {/* {submittedData && (
+                <div>
+                    <h3>Submitted Data:</h3>
+                    <p>Notes: {submittedData.input1}</p>
+                    <p>Keywords: {submittedData.input2}</p>
+                </div>
+            )} */}
+            
+            {/* <div>            
                 <TextField
                     id="outlined-textarea"
                     label="Notes"
@@ -83,7 +110,7 @@ function StudyingActivity() {
                     multiline
                     fullWidth
                 />
-            </div>
+            </div> */}
             
             <div id="text">
                 {/* <h2>{parseKeywords(testKeywords)}</h2> */}
@@ -92,7 +119,7 @@ function StudyingActivity() {
 
             </div>
 
-            <Button variant="contained" onClick = {initializeReplacement} disabled={!text || !keywordInput}>Initialize Notes and Keywords</Button>
+            {/* <Button variant="contained" onClick = {initializeReplacement} disabled={!text || !keywordInput}>Initialize Notes and Keywords</Button> */}
 
             <Button variant="contained" onClick = {removeNextKeyword} disabled={keywords.length === 0}>Remove next keyword</Button>
 
