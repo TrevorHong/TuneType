@@ -4,7 +4,7 @@ import Template from '../Components/Template/Template'
 import React, { useState } from 'react';
 
 function MusicType() {
-  const [lyrics, setLyrics] = useState<string>('sadfsdf'); // State to hold the lyrics string
+  const [lyrics, setLyrics] = useState<string>(''); // State to hold the lyrics string
 
   const handleLyricsUpdate = (newLyrics: string) => {
     setLyrics(newLyrics);
