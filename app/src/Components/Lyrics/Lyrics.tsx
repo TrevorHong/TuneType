@@ -7,6 +7,37 @@ interface LyricsProps {
   onLyricsUpdate: (lyrics: string) => void; // Prop to update lyrics
 }
 
+export const fetchLyricsWithTitle = async (songName: string) => {
+    
+  try {
+    // setError(null); // Reset error
+    // const data = await getLyrics(songTitle); // Fetch lyrics using the song title
+      // const songName = songTitle;
+    const response = await axios.get(`/api/get-lyrics?name=${songName}`);   //this api will work from dev env, need to make the getLyrics function call this end point instead.
+      // const data = axios.get(`/api/${songName}`);   //this api will work from dev env, need to make the getLyrics function call this end point instead.
+
+    if (response && response.data) {
+      const lyrics = response.data.body
+      const cleanedLyrics = cleanLyrics(lyrics);
+      // setLyrics(lyrics); // Display lyrics in the textarea
+      // onLyricsUpdate(cleanedLyrics);
+      return cleanedLyrics;
+      // console.log(data);
+    } else {
+      // setError("Lyrics not found");
+      return null;
+    }
+  } catch (err) {
+    // setError("Failed to fetch lyrics");
+    return null;
+  }
+};
+
+const cleanLyrics = (lyrics: string): string => {
+  // Regular expression to remove text inside [] and ()
+  return lyrics.replace(/\[.*?\]|\(.*?\)/g, '').trim();
+};
+
 const LyricsFetcher: React.FC<LyricsProps> = ({onLyricsUpdate}) => {
 
   // useEffect(() => {
@@ -23,10 +54,7 @@ const LyricsFetcher: React.FC<LyricsProps> = ({onLyricsUpdate}) => {
   const [lyrics, setLyrics] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
-  const cleanLyrics = (lyrics: string): string => {
-    // Regular expression to remove text inside [] and ()
-    return lyrics.replace(/\[.*?\]|\(.*?\)/g, '').trim();
-  };
+  
   
 
   // Function to handle form submission and fetch lyrics
@@ -52,6 +80,8 @@ const LyricsFetcher: React.FC<LyricsProps> = ({onLyricsUpdate}) => {
       setError("Failed to fetch lyrics");
     }
   };
+
+
 
   return (
     <div>
