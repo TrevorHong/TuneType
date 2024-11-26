@@ -59,6 +59,7 @@ function MusicType() {
           getOAuthToken: (cb: (token: string) => void) => {
             cb(accessToken);
           },
+          volume: 0.1
         });
 
         newPlayer.addListener('ready', ({ device_id }: { device_id: string }) => {
@@ -173,6 +174,17 @@ function MusicType() {
           </div>
         )}
       </div>
+      <button className="btn-spotify" onClick={() => { player.previousTrack() }} >
+      &lt;&lt;
+      </button>
+
+      <button className="btn-spotify" onClick={() => { player.togglePlay() }} >
+          { isPaused ? "PLAY" : "PAUSE" }
+      </button>
+
+      <button className="btn-spotify" onClick={() => { player.nextTrack() }} >
+            &gt;&gt;
+      </button>
 
       <button onClick={() => playSong('spotify:track:3n3Ppam7vgaVa1iaRUc9Lp')}>Play Song</button>
     </div>
