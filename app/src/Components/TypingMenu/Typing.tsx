@@ -10,6 +10,7 @@ const Typing = () => {
   const [count, setCount] = useState(60);
   const [startTime, setStartTime] = useState(0);
   const [correctWords, setCorrectWords] = useState(0);
+  const [wpm, setWpm] = useState(0); // Default WPM to 0
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
@@ -17,11 +18,17 @@ const Typing = () => {
   const location = useLocation();
 
   useEffect(() => {
-    let interval: string | number | NodeJS.Timeout | undefined;
+    let interval: NodeJS.Timeout | undefined;
     if (isRunning) {
       setStartTime(Date.now());
       interval = setInterval(() => {
-        setCount(prevCount => prevCount - 1);
+        setCount((prevCount) => {
+          if (prevCount <= 1) {
+            clearInterval(interval); // Stop timer at 0
+            return 0;
+          }
+          return prevCount - 1;
+        });
       }, 1000);
     }
 
@@ -66,17 +73,24 @@ const Typing = () => {
     setParagraph('');
   }, [location.pathname]);
 
-  // Calculate WPM (Words Per Minute)
   const calculateWPM = () => {
+    if (startTime === 0 || !isRunning) {
+      setWpm(0); // Default WPM to 0 when not running
+      return;
+    }
+
     const wordsTyped = input.trim().split(' ').length;
-    const timeElapsed = (Date.now() - startTime) / 60000; // Convert to minutes
-    return timeElapsed > 0 ? Math.floor(wordsTyped / timeElapsed) : 0;
+    const timeElapsed = (Date.now() - startTime) / 60000; // Time in minutes
+    const calculatedWPM = timeElapsed > 0 ? Math.floor(wordsTyped / timeElapsed) : 0;
+    setWpm(calculatedWPM);
   };
 
-  // Track correct words typed
   useEffect(() => {
-    const correct = input.split(' ').filter((word, index) => word === paragraph.split(' ')[index]).length;
+    const correct = input
+      .split(' ')
+      .filter((word, index) => word === paragraph.split(' ')[index]).length;
     setCorrectWords(correct);
+    calculateWPM(); // Recalculate WPM whenever input changes
   }, [input, paragraph]);
 
   return (
@@ -111,9 +125,7 @@ const Typing = () => {
           top: cursorPosition.top,
         }}
       />
-      <div className="wpm-display">
-        Words Per Minute: {calculateWPM()}
-      </div>
+      <div className="wpm-display">Words Per Minute: {wpm}</div>
     </div>
   );
 };
