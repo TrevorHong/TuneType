@@ -50,6 +50,15 @@
     font-size: 18px;
     line-height: 1.5;
     margin-bottom: 20px;
+    white-space: pre-wrap; /* Ensures that the text wraps within the container */
+    word-wrap: break-word; /* Ensures that long words break and do not overflow */
+  }
+
+  .paragraph-container {
+    height: 300px; /* Fixed height for the paragraph container */
+    overflow-y: auto; /* Enables vertical scrolling if content overflows */
+    padding-right: 10px; /* Optional, adds space for scrollbars */
+    margin-bottom: 10px; /* Optional, adjusts space below the paragraph */
   }
   
   .correct {

@@ -22,27 +22,31 @@ const Template: React.FC<TypingProps> = ({paragraph}) => {
 
   return (
     <div className="App">
-      <p className="paragraph">
-        {paragraph.split('').map((char, index) => (
-          <span
-            key={index}
-            className={input[index] === char ? 'correct' : 'incorrect'}
-          >
-            {char}
-          </span>
-        ))}
-      </p>
-      <div className="clickable-area" onClick={handleClick}>
-        Click here to start typing
-      </div>
-      <textarea
-        ref={textareaRef}
-        value={input}
-        onChange={handleChange}
-        rows={4}
-        cols={50}
-        className="hidden-textarea"
-      />
+        <div className="paragraph-container">
+            <p className="paragraph">
+            {paragraph.split('').map((char, index) => (
+            <span
+                key={index}
+                className={input[index] === char ? 'correct' : 'incorrect'}
+            >
+                {char}
+            </span>
+            ))}
+        </p>
+        
+        <textarea
+            ref={textareaRef}
+            value={input}
+            onChange={handleChange}
+            rows={4}
+            cols={50}
+            className="hidden-textarea"
+        />
+        </div>
+        <div className="clickable-area" onClick={handleClick}>
+            Click here to start typing
+        </div>
+
     </div>
   );
 };

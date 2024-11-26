@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 import { getAuthUrl, getAccessToken } from "../utils/spotifyAuth";
 import Lyrics from '../Components/Lyrics/Lyrics';
 import Template from '../Components/Template/Template';
+import {fetchLyricsWithTitle} from "../Components/Lyrics/Lyrics";
+import "../Components/TypingMenu/Typing.css"
 
 function MusicType() {
   const [lyrics, setLyrics] = useState<string>(''); // State to hold the lyrics string
@@ -59,6 +61,7 @@ function MusicType() {
           getOAuthToken: (cb: (token: string) => void) => {
             cb(accessToken);
           },
+          volume: 0.1
         });
 
         newPlayer.addListener('ready', ({ device_id }: { device_id: string }) => {
@@ -99,12 +102,19 @@ function MusicType() {
         },
       }
     );
+    const fetchedLyrics = await fetchLyricsWithTitle(name);
+    if (fetchedLyrics) {
+      setLyrics(fetchedLyrics);
+      console.log("Lyrics fetched successfully");
+    }
+    
 
     const data = await response.json();
     if (data.tracks.items.length > 0) {
       const track = data.tracks.items[0];
       console.log('Found track:', track);
       playSong(track.uri);
+      
     } else {
       console.log('Track not found');
     }
@@ -139,14 +149,13 @@ function MusicType() {
     <div>
       <iframe
         src="https://open.spotify.com/embed/playlist/5tt9xN5v58QpXuuHWeTI44?utm_source=generator&theme=0"
-        width="100%"
+        width="80%"
         height="152"
         frameBorder="0"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy"
       ></iframe>
-      <Lyrics onLyricsUpdate={handleLyricsUpdate} />
-      <Template paragraph={lyrics} />
+      {/* <Lyrics onLyricsUpdate={handleLyricsUpdate} /> */}
 
       <form onSubmit={handleSearchSubmit}>
         <input
@@ -155,7 +164,7 @@ function MusicType() {
           onChange={handleSearchChange}
           placeholder="Search for a song"
         />
-        <button type="submit">Search</button>
+        <button className="clickable-area" type="submit">Search</button>
       </form>
 
       <div className="container">
@@ -173,9 +182,23 @@ function MusicType() {
           </div>
         )}
       </div>
+      <button className="clickable-area" onClick={() => { player.previousTrack() }} >
+      &lt;&lt;
+      </button>
 
-      <button onClick={() => playSong('spotify:track:3n3Ppam7vgaVa1iaRUc9Lp')}>Play Song</button>
+      <button className="clickable-area" onClick={() => { player.togglePlay() }} >
+          { isPaused ? "PLAY" : "PAUSE" }
+      </button>
+
+      <button className="clickable-area" onClick={() => { player.nextTrack() }} >
+            &gt;&gt;
+      </button>
+
+      {/* <button className="clickable-area" onClick={() => playSong('spotify:track:3n3Ppam7vgaVa1iaRUc9Lp')}>Play Song</button> */}
+      <Template paragraph={lyrics} />
+
     </div>
+    
   );
 }
 
