@@ -33,6 +33,7 @@ export const getAccessToken = async (code: string): Promise<string> => {
   };
   try {
       const response = await axios.post(tokenUrl, params, { headers });
+      console.log("access token is: "+ response.data.access_token);
       return response.data.access_token;
   } catch (error: any) {
     console.error('Failed to fetch access token:', error.response?.data || error.message);
