@@ -10,24 +10,22 @@ const Typing = () => {
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
-  
+
   const location = useLocation();
 
   const [count, setCount] = useState(60);
 
-   
   useEffect(() => {
     let interval: string | number | NodeJS.Timeout | undefined;
     if (isRunning) {
-        interval = setInterval(() => {
-            setCount(prevCount => prevCount - 1);
-        }, 1000);
+      interval = setInterval(() => {
+        setCount(prevCount => prevCount - 1);
+      }, 1000);
     }
 
-    // Cleanup the interval when the counter stops or component unmounts
     return () => clearInterval(interval);
-}, [isRunning]);
-  
+  }, [isRunning]);
+
   // Define the maximum length for different difficulty levels
   const difficultyLevels: Record<string, number> = {
     '/NormalType/Easy': 7,
@@ -37,12 +35,10 @@ const Typing = () => {
 
   const maxLength = difficultyLevels[location.pathname as keyof typeof difficultyLevels] || 0;
 
-  // Handle input change in the textarea
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
   };
 
-  // Focus on the text area when clicking the clickable area
   const handleClick = () => {
     setIsRunning(true);
     if (textareaRef.current) {
@@ -50,7 +46,6 @@ const Typing = () => {
     }
   };
 
-  // Calculate cursor position based on input length
   const getCursorPosition = () => {
     if (paragraphRef.current) {
       const cursorIndex = input.length;
@@ -66,7 +61,6 @@ const Typing = () => {
   // Calculate cursor position
   const cursorPosition = getCursorPosition();
 
-  // Effect to reset input and fetch new paragraph when the location changes
   useEffect(() => {
     setInput('');
     setParagraph('');
@@ -75,7 +69,7 @@ const Typing = () => {
   return (
     <div className="App">
       <Random maxLength={maxLength} setParagraph={setParagraph} />
-      <div className = "Timer">{count}</div>
+      <div className="Timer">{count}</div>
       <p className="paragraph" ref={paragraphRef}>
         {paragraph.split('').map((char, index) => (
           <span
@@ -104,7 +98,6 @@ const Typing = () => {
           top: cursorPosition.top,
         }}
       />
-      
     </div>
   );
 };

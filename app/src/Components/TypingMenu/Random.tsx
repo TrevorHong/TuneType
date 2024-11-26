@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
-// URL for Random Word API
-const RANDOM_WORD_API_URL = 'https://random-word-api.herokuapp.com/word?number=100'; // Fetch 100 random words
+// URL for the new Random Word API
+const RANDOM_WORD_API_URL = 'https://random-word-api.vercel.app/api?words=100'; // Fetch 100 random words
 
 interface RandomProps {
   maxLength: number; 
@@ -16,7 +16,7 @@ const Random: React.FC<RandomProps> = ({ maxLength, setParagraph }) => {
       
       // Filter words based on maxLength
       const filteredWords = words.filter(word => word.length <= maxLength);
-      const randomParagraph = filteredWords.join(' ') + '.';
+      const randomParagraph = filteredWords.join(' ') + '.'; // Join words with a space and add a period
       setParagraph(randomParagraph);
     } catch (error) {
       console.error('Error fetching random words:', error);
