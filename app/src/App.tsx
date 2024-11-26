@@ -7,6 +7,8 @@ import Settings from './pages/Settings.tsx';
 import MusicType from './pages/MusicType.tsx';
 import NormalType from './pages/NormalType.tsx';
 import Modes from './Components/Modes/Modes.tsx';
+import Studying from './Pages/Studying.tsx'
+import StudyingActivity from './Pages/StudyingActivity.tsx'
 
 function App() {
  
@@ -28,6 +30,7 @@ function App() {
           </Route>
         </Routes>
       </div>
+
     </>
   );
 }

@@ -1,0 +1,20 @@
+#main-content {
+    display: flex;
+    justify-content: center; /* Center align items horizontally */
+    flex-direction: row;
+}
+
+#addOrDelete {
+    width: 20%;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    border-style: solid;
+}
+
+#cardList{
+    margin: 10px;
+    padding: 15px;
+    border-radius: 10px;
+    border-style: solid;
+}
