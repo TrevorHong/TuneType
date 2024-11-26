@@ -55,8 +55,8 @@
   }
 
   .paragraph-container {
-    height: 300px; /* Set a fixed height for the paragraph container */
-    overflow-y: auto; /* Enables vertical scrolling if the content exceeds the container height */
+    height: 300px; /* Fixed height for the paragraph container */
+    overflow-y: auto; /* Enables vertical scrolling if content overflows */
     padding-right: 10px; /* Optional, adds space for scrollbars */
     margin-bottom: 10px; /* Optional, adjusts space below the paragraph */
   }

@@ -4,6 +4,7 @@ import { getAuthUrl, getAccessToken } from "../utils/spotifyAuth";
 import Lyrics from '../Components/Lyrics/Lyrics';
 import Template from '../Components/Template/Template';
 import {fetchLyricsWithTitle} from "../Components/Lyrics/Lyrics";
+import "../Components/TypingMenu/Typing.css"
 
 function MusicType() {
   const [lyrics, setLyrics] = useState<string>(''); // State to hold the lyrics string
@@ -148,7 +149,7 @@ function MusicType() {
     <div>
       <iframe
         src="https://open.spotify.com/embed/playlist/5tt9xN5v58QpXuuHWeTI44?utm_source=generator&theme=0"
-        width="100%"
+        width="80%"
         height="152"
         frameBorder="0"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
@@ -163,7 +164,7 @@ function MusicType() {
           onChange={handleSearchChange}
           placeholder="Search for a song"
         />
-        <button type="submit">Search</button>
+        <button className="clickable-area" type="submit">Search</button>
       </form>
 
       <div className="container">
@@ -181,19 +182,19 @@ function MusicType() {
           </div>
         )}
       </div>
-      <button className="btn-spotify" onClick={() => { player.previousTrack() }} >
+      <button className="clickable-area" onClick={() => { player.previousTrack() }} >
       &lt;&lt;
       </button>
 
-      <button className="btn-spotify" onClick={() => { player.togglePlay() }} >
+      <button className="clickable-area" onClick={() => { player.togglePlay() }} >
           { isPaused ? "PLAY" : "PAUSE" }
       </button>
 
-      <button className="btn-spotify" onClick={() => { player.nextTrack() }} >
+      <button className="clickable-area" onClick={() => { player.nextTrack() }} >
             &gt;&gt;
       </button>
 
-      <button onClick={() => playSong('spotify:track:3n3Ppam7vgaVa1iaRUc9Lp')}>Play Song</button>
+      {/* <button className="clickable-area" onClick={() => playSong('spotify:track:3n3Ppam7vgaVa1iaRUc9Lp')}>Play Song</button> */}
       <Template paragraph={lyrics} />
 
     </div>
