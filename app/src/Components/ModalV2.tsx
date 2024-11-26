@@ -50,20 +50,22 @@ const ModalV2: React.FC<BasicModalProps> = ({ open, handleClose, handleSubmit })
         </Typography>
 
         <TextField
-          id="input1"
+          id="outlined-multiline-flexible"
           label="Notes"
           placeholder="Notes go here"
           multiline
+          maxRows={4}
           value={input1}
           onChange={(e) => setInput1(e.target.value)}
           sx={{ mt: 2, width: '100%' }}
         />
 
         <TextField
-          id="input2"
+          id="outlined-multiline-flexible"
           label="Keywords"
           placeholder="Keywords go here"
           multiline
+          maxRows={4}
           value={input2}
           onChange={(e) => setInput2(e.target.value)}
           sx={{ mt: 2, width: '100%' }}
