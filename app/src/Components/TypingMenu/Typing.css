@@ -1,0 +1,124 @@
+#root {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .logo {
+    height: 6em;
+    padding: 1.5em;
+    will-change: filter;
+    transition: filter 300ms;
+  }
+  .logo:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+  }
+  .logo.react:hover {
+    filter: drop-shadow(0 0 2em #61dafbaa);
+  }
+  
+  @keyframes logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    a:nth-of-type(2) .logo {
+      animation: logo-spin infinite 20s linear;
+    }
+  }
+  
+  .card {
+    padding: 2em;
+  }
+  
+  .read-the-docs {
+    color: #888;
+  }
+  .App {
+    font-family: sans-serif;
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .paragraph {
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  
+  .correct {
+    color: rgb(255, 255, 255);
+  }
+  
+  .incorrect {
+    color: rgb(87, 81, 81);
+  }
+  
+  .clickable-area {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .hidden-textarea {
+    position: absolute;
+    left: -9999px;
+  }
+  
+  .App {
+    position: relative;
+  }
+  
+  .paragraph {
+    position: relative;
+    display: inline-block;
+    white-space: pre-wrap; /* Maintain spacing in the paragraph */
+    font-family: monospace; /* Use monospace to keep character width consistent */
+  }
+  
+  .clickable-area {
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .hidden-textarea {
+    position: absolute;
+    left: -9999px; /* Move it out of view */
+  }
+  
+  .blinking-cursor {
+    position: absolute;
+    width: 2px;
+    height: 1.2em; /* Set to slightly larger to match line height */
+    background-color: white;
+    animation: blink 1s step-start infinite;
+    pointer-events: none;
+    transform: translateY(37px); /* Adjust this value to fine-tune alignment */
+  }
+  
+  
+  
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .Timer{
+    color: white;
+    display: flex;
+    content: left;
+  }
+  
+.clickable-area{
+  background-color: rgb(137, 137, 106);
+}

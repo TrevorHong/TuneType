@@ -1,16 +1,47 @@
-import './Navbar.css'
+import './Navbar.css';
+import { Link } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 function Navbar() {
-  return (<nav className = "nav">
-    <a href = "/" className="Title">Tune Type</a>
-    <ul>
-        <li><a href = "/" >mode 1</a></li>
-        <li><a href = "/" >mode 2</a></li>
-        <li><a href = "/" >mode 3</a></li>  
-    </ul>
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const navigate = useNavigate();
 
-  </nav>
-  )
+  const handleLoginSuccess = (credentialResponse: unknown) => {
+    console.log(credentialResponse);
+    setIsLoggedIn(true); 
+    navigate('/NormalType'); 
+  };
+
+  const handleLoginError = () => {
+    console.log('Login failed');
+  };
+
+  return (
+    <nav className="nav">
+      <a href="/NormalType/Medium" className="Title">Tune Type</a>
+      <ul>
+        <li>
+          <Link to="/statistics">Statistics</Link>
+        </li>
+        <li>
+          <Link to="/settings">Settings</Link>
+        </li>
+        {isLoggedIn && ( 
+          <li>
+            <Link to="/profile">Profile</Link>
+          </li>
+        )}
+        {!isLoggedIn && ( 
+          <GoogleLogin
+            onSuccess={handleLoginSuccess}
+            onError={handleLoginError}
+          />
+        )}
+      </ul>
+    </nav>
+  );
 }
 
-export default Navbar
+export default Navbar;
