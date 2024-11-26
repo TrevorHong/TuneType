@@ -4,6 +4,7 @@ import ModalV2 from '../Components/ModalV2';
 import StudyingErrorModal from '../Components/StudyingErrorModal/StudyingErrorModal';
 
 import '/public/css/Typing.css'
+// import '/src/Components/TypingMenu/Typing.css'
 
 import '/public/css/StudyingActivity.css'
 
@@ -37,9 +38,11 @@ function StudyingActivity() {
     const removeNextKeyword = () => {
         const sentenceErrors = findSentenceErrors(text, input);
         setSentenceErrors(sentenceErrors);
-        console.log(sentenceErrors);
+        // console.log(sentenceErrors);
         // console.log(lastText);
+        setIsRunning(false);
         setReview(true);
+        setCount(0);
 
         if(keywords.length == 0 && oneMoreClick) {
             setOneMoreClick(false);
@@ -70,7 +73,10 @@ function StudyingActivity() {
     // For modal
     const [open, setOpen] = useState(false);
 
-    const handleOpen = () => setOpen(true);
+    const handleOpen = () => {
+        setOpen(true);
+        setIsRunning(false);
+    };
     const handleClose = () => setOpen(false);
 
     const handleSubmit = (input1: string, input2: string) => {
@@ -121,7 +127,7 @@ function StudyingActivity() {
             const span = paragraphRef.current.children[cursorIndex] as HTMLElement;
             if (span) {
                 const { offsetLeft, offsetTop } = span;
-                return { left: offsetLeft, top: offsetTop + 4 };
+                return { left: offsetLeft, top: offsetTop - 16 };
             }
             }
             return { left: 0, top: 0 };
@@ -129,12 +135,6 @@ function StudyingActivity() {
 
         // Calculate cursor position
         const cursorPosition = getCursorPosition();
-
-        // Effect to reset input and fetch new paragraph when the location changes
-        // useEffect(() => {
-        //     setInput('');
-        //     setParagraph('');
-        // }, [location.pathname]);
 
         useEffect(() => {
             let interval: string | number | NodeJS.Timeout | undefined;
@@ -191,48 +191,24 @@ function StudyingActivity() {
 
         const [review, setReview] = useState(false);
 
-        const handleOpenReview = () => setReview(true);
         const handleCloseReview = () => setReview(false);
     return (
-
-
-
         <div id="main-content">
             {/* Add Notes via Modal */}
-            <Button variant="contained" onClick = {handleOpen}>Add or adjust notes!</Button>
+            <div id="button-area">
+                <Button variant="contained" onClick = {handleOpen}>Add or adjust notes!</Button>
+                <Button variant="contained" className="clickable-area" onClick={handleClick}>
+                    Click here to start typing
+                </Button>
+            </div>
             <ModalV2 open={open} handleClose={handleClose} handleSubmit={handleSubmit}></ModalV2>
+            
+            {/* Display errors through Modal */}
             <StudyingErrorModal open={review} handleClose={handleCloseReview} errors={sentenceErrors}></StudyingErrorModal>
             
-            
-
             {/* Typing Functionality */}
-            {/* <div className="App">
-                <h1>Typing Prompt</h1>
-                <p className="paragraph">
-                    {currentText.split('').map((char, index) => (
-                    <span
-                        key={index}
-                        className={input[index] === char ? 'correct' : 'incorrect'}
-                    >
-                        {char}
-                    </span>
-                    ))}
-                </p>
-                <div className="clickable-area" onClick={handleClick}>
-                    Click here to start typing
-                </div>
-                <textarea
-                    ref={textareaRef}
-                    value={input}
-                    onChange={handleChange}
-                    rows={4}
-                    cols={50}
-                    className="hidden-textarea"
-                />
-                </div> */}
 
                 <div className="App">
-                    <div className = "Timer">{count}</div>
                     <p className="paragraph" ref={paragraphRef}>
                         {currentText.split('').map((char, index) => (
                         <span
@@ -243,28 +219,35 @@ function StudyingActivity() {
                         </span>
                         ))}
                     </p>
-                    <div className="clickable-area" onClick={handleClick}>
+                    {/* <div className="clickable-area" onClick={handleClick}>
                         Click here to start typing
-                    </div>
-                    <textarea
-                        ref={textareaRef}
-                        value={input}
-                        onChange={handleChange}
-                        rows={4}
-                        cols={50}
-                        className="hidden-textarea"
-                    />
-                    <div
-                        className="blinking-cursor"
-                        style={{
-                        left: cursorPosition.left,
-                        top: cursorPosition.top,
-                        }}
-                    />
-                    
+                    </div> */}
+                    <div>
+                        <textarea
+                            ref={textareaRef}
+                            value={input}
+                            onChange={handleChange}
+                            rows={4}
+                            cols={50}
+                            className="hidden-textarea"
+                        />
+                        <div
+                            className="blinking-cursor"
+                            style={{
+                            left: cursorPosition.left,
+                            top: cursorPosition.top,
+                            }}
+                        />
                     </div>
 
-            {/* <Button variant="contained" onClick = {initializeReplacement} disabled={!text || !keywordInput}>Initialize Notes and Keywords</Button> */}
+
+                    <div className = "Timer">
+                        
+                        <div>Time taken</div>
+                        <div>{count}</div>                        
+                    </div>
+                    
+                    </div>
 
             <Button variant="contained" onClick = {removeNextKeyword} disabled={keywords.length === 0 && !oneMoreClick}>Remove next keyword</Button>
 
