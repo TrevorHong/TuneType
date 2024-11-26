@@ -9,11 +9,11 @@ function MusicType() {
   const [accessToken, setAccessToken] = useState<string | null>(null); // State for the access token
   const [player, setPlayer] = useState<any>(null); // Spotify Player instance
   const [deviceId, setDeviceId] = useState<string | null>(null); // Device ID for playback
+  const [songName, setSongName] = useState<string>(''); // Store song name to search for
+  const [currentTrack, setCurrentTrack] = useState<any>(null); // Current track info
   const location = useLocation(); // Get URL parameters
-  const [is_paused, setPaused] = useState(false);
-  const [is_active, setActive] = useState(false);
-  const [current_track, setTrack] = useState(track);
-
+  const [isPaused, setPaused] = useState(false);
+  const [isActive, setActive] = useState(false);
 
   const handleLyricsUpdate = (newLyrics: string) => {
     setLyrics(newLyrics);
@@ -71,24 +71,14 @@ function MusicType() {
         });
 
         newPlayer.addListener('player_state_changed', (state: any) => {
-          console.log('Player state changed', state);
-        });
-        newPlayer.addListener('player_state_changed', ( (state: any) => {
-
-          if (!state) {
-              return;
+          if (state) {
+            setCurrentTrack(state.track_window.current_track);
+            setPaused(state.paused);
+            newPlayer.getCurrentState().then((state: any) => {
+              setActive(state ? true : false);
+            });
           }
-      
-          setTrack(state.track_window.current_track);
-          setPaused(state.paused);
-      
-      
-          newPlayer.getCurrentState().then( (state: any) => { 
-              (!state)? setActive(false) : setActive(true) 
-          });
-      
-      }));
-      
+        });
 
         newPlayer.connect();
         setPlayer(newPlayer);
@@ -97,6 +87,28 @@ function MusicType() {
       loadSpotifySDK();
     }
   }, [accessToken, player]);
+
+  const searchSong = async (name: string) => {
+    if (!accessToken) return;
+
+    const response = await fetch(
+      `https://api.spotify.com/v1/search?q=${encodeURIComponent(name)}&type=track&limit=1`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const data = await response.json();
+    if (data.tracks.items.length > 0) {
+      const track = data.tracks.items[0];
+      console.log('Found track:', track);
+      playSong(track.uri);
+    } else {
+      console.log('Track not found');
+    }
+  };
 
   const playSong = async (uri: string) => {
     if (!deviceId || !accessToken) return;
@@ -108,6 +120,15 @@ function MusicType() {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSongName(e.target.value);
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    searchSong(songName);
   };
 
   if (!accessToken) {
@@ -126,40 +147,36 @@ function MusicType() {
       ></iframe>
       <Lyrics onLyricsUpdate={handleLyricsUpdate} />
       <Template paragraph={lyrics} />
-      <>
-        <div className="container">
-            <div className="main-wrapper">
-                <img src={current_track.album.images[0].url} 
-                     className="now-playing__cover" alt="" />
 
-                <div className="now-playing__side">
-                    <div className="now-playing__name">{
-                                  current_track.name
-                                  }</div>
+      <form onSubmit={handleSearchSubmit}>
+        <input
+          type="text"
+          value={songName}
+          onChange={handleSearchChange}
+          placeholder="Search for a song"
+        />
+        <button type="submit">Search</button>
+      </form>
 
-                    <div className="now-playing__artist">{
-                                  current_track.artists[0].name
-                                  }</div>
-                </div>
+      <div className="container">
+        {currentTrack && (
+          <div className="main-wrapper">
+            <img
+              src={currentTrack.album.images[0].url}
+              className="now-playing__cover"
+              alt=""
+            />
+            <div className="now-playing__side">
+              <div className="now-playing__name">{currentTrack.name}</div>
+              <div className="now-playing__artist">{currentTrack.artists[0].name}</div>
             </div>
-        </div>
-     </>
+          </div>
+        )}
+      </div>
+
       <button onClick={() => playSong('spotify:track:3n3Ppam7vgaVa1iaRUc9Lp')}>Play Song</button>
     </div>
   );
 }
 
 export default MusicType;
-
-const track = {
-  name: "",
-  album: {
-      images: [
-          { url: "" }
-      ]
-  },
-  artists: [
-      { name: "" }
-  ]
-}
-
