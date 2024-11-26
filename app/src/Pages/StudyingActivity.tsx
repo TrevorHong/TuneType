@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import ModalV2 from '../Components/ModalV2';
 import StudyingErrorModal from '../Components/StudyingErrorModal/StudyingErrorModal';
 
-import '/public/css/StudyingTyping.css'
+import '/public/css/StudyTyping.css'
 // import '/src/Components/TypingMenu/Typing.css'
 
 import '/public/css/StudyingActivity.css'
