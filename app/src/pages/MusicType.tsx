@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { getAuthUrl, getAccessToken } from "../utils/spotifyAuth";
 import Lyrics from '../Components/Lyrics/Lyrics';
 import Template from '../Components/Template/Template';
+import {fetchLyricsWithTitle} from "../Components/Lyrics/Lyrics";
 
 function MusicType() {
   const [lyrics, setLyrics] = useState<string>(''); // State to hold the lyrics string
@@ -100,12 +101,19 @@ function MusicType() {
         },
       }
     );
+    const fetchedLyrics = await fetchLyricsWithTitle(name);
+    if (fetchedLyrics) {
+      setLyrics(fetchedLyrics);
+      console.log("Lyrics fetched successfully");
+    }
+    
 
     const data = await response.json();
     if (data.tracks.items.length > 0) {
       const track = data.tracks.items[0];
       console.log('Found track:', track);
       playSong(track.uri);
+      
     } else {
       console.log('Track not found');
     }
