@@ -122,3 +122,10 @@
 .clickable-area{
   background-color: rgb(137, 137, 106);
 }
+
+.wpm-display {
+  font-size: 1.5rem;
+  color: white;
+  margin-top: 10px;
+  text-align: center;
+}

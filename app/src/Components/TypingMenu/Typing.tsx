@@ -7,17 +7,19 @@ const Typing = () => {
   const [input, setInput] = useState('');
   const [paragraph, setParagraph] = useState('');
   const [isRunning, setIsRunning] = useState(false);
+  const [count, setCount] = useState(60);
+  const [startTime, setStartTime] = useState(0);
+  const [correctWords, setCorrectWords] = useState(0);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
 
   const location = useLocation();
 
-  const [count, setCount] = useState(60);
-
   useEffect(() => {
     let interval: string | number | NodeJS.Timeout | undefined;
     if (isRunning) {
+      setStartTime(Date.now());
       interval = setInterval(() => {
         setCount(prevCount => prevCount - 1);
       }, 1000);
@@ -26,7 +28,6 @@ const Typing = () => {
     return () => clearInterval(interval);
   }, [isRunning]);
 
-  // Define the maximum length for different difficulty levels
   const difficultyLevels: Record<string, number> = {
     '/NormalType/Easy': 7,
     '/NormalType/Medium': 10,
@@ -58,13 +59,25 @@ const Typing = () => {
     return { left: 0, top: 0 };
   };
 
-  // Calculate cursor position
   const cursorPosition = getCursorPosition();
 
   useEffect(() => {
     setInput('');
     setParagraph('');
   }, [location.pathname]);
+
+  // Calculate WPM (Words Per Minute)
+  const calculateWPM = () => {
+    const wordsTyped = input.trim().split(' ').length;
+    const timeElapsed = (Date.now() - startTime) / 60000; // Convert to minutes
+    return timeElapsed > 0 ? Math.floor(wordsTyped / timeElapsed) : 0;
+  };
+
+  // Track correct words typed
+  useEffect(() => {
+    const correct = input.split(' ').filter((word, index) => word === paragraph.split(' ')[index]).length;
+    setCorrectWords(correct);
+  }, [input, paragraph]);
 
   return (
     <div className="App">
@@ -98,6 +111,9 @@ const Typing = () => {
           top: cursorPosition.top,
         }}
       />
+      <div className="wpm-display">
+        Words Per Minute: {calculateWPM()}
+      </div>
     </div>
   );
 };
