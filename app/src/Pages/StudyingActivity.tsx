@@ -27,19 +27,11 @@ function StudyingActivity() {
     //For one more button press after keywords array hits 0
     const [oneMoreClick, setOneMoreClick] = useState(true);
 
-    const nextIteration = () => {
-        const sentenceErrors = findSentenceErrors(text, input);
-        console.log(sentenceErrors);
-        console.log(lastText);
-
-        removeNextKeyword();
-    }
-    
     const removeNextKeyword = () => {
         const sentenceErrors = findSentenceErrors(text, input);
         setSentenceErrors(sentenceErrors);
         // console.log(sentenceErrors);
-        // console.log(lastText);
+        console.log(lastText);
         setIsRunning(false);
         setReview(true);
         setCount(0);
@@ -82,9 +74,9 @@ function StudyingActivity() {
     const handleSubmit = (input1: string, input2: string) => {
         setText(input1);
         setCurrentText(input1);
+        setLastText(input1);
         setInput("");
         setKeywords(parseKeywords(input2));
-        setLastText(text);
         setCount(0);
         handleClose();
       };
