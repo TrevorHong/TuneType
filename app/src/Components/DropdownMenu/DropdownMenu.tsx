@@ -17,7 +17,7 @@ function DropdownMenu({ setopenModes }: DropdownMenuProps) {
         <ul>
             <li><Link to = '/MusicType' onClick={handleClick} >Music Mode</Link></li>
             <li><Link to = '/NormalType/Medium' onClick={handleClick}>Normal Type</Link></li>
-            <li><Link to = '/' onClick={handleClick}>Study Type</Link></li>
+            <li><Link to = '/StudyingActivity' onClick={handleClick}>Study Type</Link></li>
         </ul>
     </div>
   )
