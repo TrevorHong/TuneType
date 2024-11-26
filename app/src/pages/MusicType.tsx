@@ -21,6 +21,8 @@ function MusicType() {
     setLyrics(newLyrics);
   };
 
+
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const code = searchParams.get('code'); // Retrieve the authorization code from the URL
@@ -44,7 +46,16 @@ function MusicType() {
         const script = document.createElement('script');
         script.src = "https://sdk.scdn.co/spotify-player.js";
         script.async = true;
-        script.onload = () => initializeSpotifyPlayer();
+        script.onload = () => {
+          const checkSpotifyReady = setInterval(() => {
+            if ((window as any).Spotify) {
+              clearInterval(checkSpotifyReady);
+              initializeSpotifyPlayer();
+            }
+          }, 100); // Check every 100ms until Spotify is ready
+        };
+
+
         document.body.appendChild(script);
       };
 
