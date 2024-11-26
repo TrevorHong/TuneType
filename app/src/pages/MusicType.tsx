@@ -154,8 +154,7 @@ function MusicType() {
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy"
       ></iframe>
-      <Lyrics onLyricsUpdate={handleLyricsUpdate} />
-      <Template paragraph={lyrics} />
+      {/* <Lyrics onLyricsUpdate={handleLyricsUpdate} /> */}
 
       <form onSubmit={handleSearchSubmit}>
         <input
@@ -195,7 +194,10 @@ function MusicType() {
       </button>
 
       <button onClick={() => playSong('spotify:track:3n3Ppam7vgaVa1iaRUc9Lp')}>Play Song</button>
+      <Template paragraph={lyrics} />
+
     </div>
+    
   );
 }
 
