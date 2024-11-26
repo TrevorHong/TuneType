@@ -1,8 +1,8 @@
 import React, {useState, useRef, useEffect} from 'react';
-import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import ModalV2 from '../Components/ModalV2';
+import StudyingErrorModal from '../Components/StudyingErrorModal/StudyingErrorModal';
+
 import '/public/css/Typing.css'
 
 import '/public/css/StudyingActivity.css'
@@ -21,6 +21,7 @@ function StudyingActivity() {
     const [keywords, setKeywords] = useState<string[]>([]);
     const [lastText, setLastText] = useState("");
     const [currentText, setCurrentText] = useState("");
+    const [sentenceErrors, setSentenceErrors] = useState<{index: number, expected: string, actual: string}[]>([])
 
     //For one more button press after keywords array hits 0
     const [oneMoreClick, setOneMoreClick] = useState(true);
@@ -34,9 +35,11 @@ function StudyingActivity() {
     }
     
     const removeNextKeyword = () => {
-        // const sentenceErrors = findSentenceErrors(text, input);
-        // console.log(sentenceErrors);
+        const sentenceErrors = findSentenceErrors(text, input);
+        setSentenceErrors(sentenceErrors);
+        console.log(sentenceErrors);
         // console.log(lastText);
+        setReview(true);
 
         if(keywords.length == 0 && oneMoreClick) {
             setOneMoreClick(false);
@@ -76,6 +79,7 @@ function StudyingActivity() {
         setInput("");
         setKeywords(parseKeywords(input2));
         setLastText(text);
+        setCount(0);
         handleClose();
       };
 
@@ -89,7 +93,6 @@ function StudyingActivity() {
         // setInput(e.target.value);
 
         //Replace underscores with letter
-
          // Iterate through the user's input and replace underscores with matching characters
         let updatedText = currentText.split("").map((char, index) => {
             if (char === "_" && typedValue[index] !== undefined) {
@@ -102,8 +105,51 @@ function StudyingActivity() {
         setInput(typedValue); // Update the input state
 
       };
+
+      //New Typing stuff
+
+      const paragraphRef = useRef<HTMLParagraphElement>(null);
+
+      const [count, setCount] = useState(0);
+      const [isRunning, setIsRunning] = useState(false);
+
+
+        // Calculate cursor position based on input length
+        const getCursorPosition = () => {
+            if (paragraphRef.current) {
+            const cursorIndex = input.length;
+            const span = paragraphRef.current.children[cursorIndex] as HTMLElement;
+            if (span) {
+                const { offsetLeft, offsetTop } = span;
+                return { left: offsetLeft, top: offsetTop + 4 };
+            }
+            }
+            return { left: 0, top: 0 };
+        };
+
+        // Calculate cursor position
+        const cursorPosition = getCursorPosition();
+
+        // Effect to reset input and fetch new paragraph when the location changes
+        // useEffect(() => {
+        //     setInput('');
+        //     setParagraph('');
+        // }, [location.pathname]);
+
+        useEffect(() => {
+            let interval: string | number | NodeJS.Timeout | undefined;
+            if (isRunning) {
+                interval = setInterval(() => {
+                    setCount(prevCount => prevCount + 1);
+                }, 1000);
+            }
+        
+            // Cleanup the interval when the counter stops or component unmounts
+            return () => clearInterval(interval);
+        }, [isRunning]);
     
       const handleClick = () => {
+        setIsRunning(true);
         if (textareaRef.current) {
           textareaRef.current.focus();
         }
@@ -113,7 +159,7 @@ function StudyingActivity() {
         // Function to split a paragraph into sentences
         const splitIntoSentences = (text: string) => {
             // A simple sentence split using regex. It matches sentence-ending punctuation.
-            return text.match(/[^.!?]+[.!?]*\s*/g) || [];
+            return text.match(/[^.!?\n]+[.!?\n]*\s*/g) || [];
         };
   
         // Function to compare sentences and find errors
@@ -142,6 +188,11 @@ function StudyingActivity() {
             return errors;
         };
 
+
+        const [review, setReview] = useState(false);
+
+        const handleOpenReview = () => setReview(true);
+        const handleCloseReview = () => setReview(false);
     return (
 
 
@@ -150,10 +201,12 @@ function StudyingActivity() {
             {/* Add Notes via Modal */}
             <Button variant="contained" onClick = {handleOpen}>Add or adjust notes!</Button>
             <ModalV2 open={open} handleClose={handleClose} handleSubmit={handleSubmit}></ModalV2>
+            <StudyingErrorModal open={review} handleClose={handleCloseReview} errors={sentenceErrors}></StudyingErrorModal>
+            
             
 
             {/* Typing Functionality */}
-            <div className="App">
+            {/* <div className="App">
                 <h1>Typing Prompt</h1>
                 <p className="paragraph">
                     {currentText.split('').map((char, index) => (
@@ -176,7 +229,40 @@ function StudyingActivity() {
                     cols={50}
                     className="hidden-textarea"
                 />
-                </div>
+                </div> */}
+
+                <div className="App">
+                    <div className = "Timer">{count}</div>
+                    <p className="paragraph" ref={paragraphRef}>
+                        {currentText.split('').map((char, index) => (
+                        <span
+                            key={index}
+                            className={input[index] === char ? 'correct' : 'incorrect'}
+                        >
+                            {char}
+                        </span>
+                        ))}
+                    </p>
+                    <div className="clickable-area" onClick={handleClick}>
+                        Click here to start typing
+                    </div>
+                    <textarea
+                        ref={textareaRef}
+                        value={input}
+                        onChange={handleChange}
+                        rows={4}
+                        cols={50}
+                        className="hidden-textarea"
+                    />
+                    <div
+                        className="blinking-cursor"
+                        style={{
+                        left: cursorPosition.left,
+                        top: cursorPosition.top,
+                        }}
+                    />
+                    
+                    </div>
 
             {/* <Button variant="contained" onClick = {initializeReplacement} disabled={!text || !keywordInput}>Initialize Notes and Keywords</Button> */}
 
