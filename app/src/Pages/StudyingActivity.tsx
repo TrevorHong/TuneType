@@ -21,12 +21,28 @@ function StudyingActivity() {
     const [keywords, setKeywords] = useState<string[]>([]);
     const [lastText, setLastText] = useState("");
     const [currentText, setCurrentText] = useState("");
+
+    //For one more button press after keywords array hits 0
+    const [oneMoreClick, setOneMoreClick] = useState(true);
+
+    const nextIteration = () => {
+        const sentenceErrors = findSentenceErrors(text, input);
+        console.log(sentenceErrors);
+        console.log(lastText);
+
+        removeNextKeyword();
+    }
     
     const removeNextKeyword = () => {
-        // if(currentText != ""){
-        //     setLastText(currentText);
-        // }
-        console.log(lastText);
+        // const sentenceErrors = findSentenceErrors(text, input);
+        // console.log(sentenceErrors);
+        // console.log(lastText);
+
+        if(keywords.length == 0 && oneMoreClick) {
+            setOneMoreClick(false);
+            return;
+        }
+
         if (keywords.length > 0) {
             const [nextKeyword, ...remainingKeywords] = keywords;
             const regex = new RegExp(`\\b${nextKeyword}\\b`, 'gi'); // Match whole words, case-insensitive
@@ -93,11 +109,39 @@ function StudyingActivity() {
         }
       };
 
-    //   useEffect(() => {
-    //     setInput(""); // Clear input whenever currentText updates
-    //   }, [currentText]);
+        // For checking keyword errors
+        // Function to split a paragraph into sentences
+        const splitIntoSentences = (text: string) => {
+            // A simple sentence split using regex. It matches sentence-ending punctuation.
+            return text.match(/[^.!?]+[.!?]*\s*/g) || [];
+        };
+  
+        // Function to compare sentences and find errors
+        const findSentenceErrors = (text1: string, text2: string) => {
+            const sentences1 = splitIntoSentences(text1); // Split text1 into sentences
+            const sentences2 = splitIntoSentences(text2); // Split text2 into sentences
+        
+            const errors = [];
+        
+            // Compare the sentences
+            const maxLength = Math.max(sentences1.length, sentences2.length);
+        
+            for (let i = 0; i < maxLength; i++) {
+            const sentence1 = sentences1[i] || ""; // Handle case when sentences are missing in one of the texts
+            const sentence2 = sentences2[i] || "";
+        
+            if (sentence1 !== sentence2) {
+                errors.push({
+                index: i, // The index of the sentence
+                expected: sentence1,
+                actual: sentence2,
+                });
+            }
+            }
+        
+            return errors;
+        };
 
-      
     return (
 
 
@@ -136,7 +180,7 @@ function StudyingActivity() {
 
             {/* <Button variant="contained" onClick = {initializeReplacement} disabled={!text || !keywordInput}>Initialize Notes and Keywords</Button> */}
 
-            <Button variant="contained" onClick = {removeNextKeyword} disabled={keywords.length === 0}>Remove next keyword</Button>
+            <Button variant="contained" onClick = {removeNextKeyword} disabled={keywords.length === 0 && !oneMoreClick}>Remove next keyword</Button>
 
         </div>
 
