@@ -7,8 +7,8 @@ import Settings from './Pages/Settings.tsx';
 import MusicType from './Pages/MusicType.tsx';
 import NormalType from './Pages/NormalType.tsx';
 import Modes from './Components/Modes/Modes.tsx';
-import Studying from './pages/Studying.tsx'
-import StudyingActivity from './pages/StudyingActivity.tsx'
+import Studying from './Pages/Studying.tsx'
+import StudyingActivity from './Pages/StudyingActivity.tsx'
 
 function App() {
  
