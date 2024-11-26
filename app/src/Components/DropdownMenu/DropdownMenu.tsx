@@ -22,5 +22,4 @@ function DropdownMenu({ setopenModes }: DropdownMenuProps) {
     </div>
   )
 }
-
 export default DropdownMenu
