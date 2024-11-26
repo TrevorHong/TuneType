@@ -6,7 +6,6 @@ import { useLocation } from 'react-router-dom';
 const Typing = () => {
   const [input, setInput] = useState('');
   const [paragraph, setParagraph] = useState('');
-  const [WPM, setWPM] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
