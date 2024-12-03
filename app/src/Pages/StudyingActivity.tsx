@@ -11,6 +11,9 @@ import '../../public/css/StudyingActivity.css'
 
 function StudyingActivity() {
 
+    // Parses the keywords
+    // Separates into separate keywords by separating via commas
+    // If no keywords, return empty array
     const parseKeywords = (keywords: string) => {
         const parsedKeywords = keywords.trim() ? keywords.split(',').map(part => part.trim()) : [];
 
@@ -18,6 +21,8 @@ function StudyingActivity() {
         return parsedKeywords;
     }
 
+    // states for various things
+    // names are relatively self-explanatory
     const [text, setText] = useState("");
     const [keywords, setKeywords] = useState<string[]>([]);
     const [lastText, setLastText] = useState("");
@@ -27,20 +32,26 @@ function StudyingActivity() {
     //For one more button press after keywords array hits 0
     const [oneMoreClick, setOneMoreClick] = useState(true);
 
+    // Remove next keyword logic is here
     const removeNextKeyword = () => {
+        // Find the errors and place them into a variable
+        // findSentenceErrors returns an array
         const sentenceErrors = findSentenceErrors(text, input);
         setSentenceErrors(sentenceErrors);
         // console.log(sentenceErrors);
-        console.log(lastText);
+        // console.log(lastText);
         setIsRunning(false);
         setReview(true);
         setCount(0);
 
+        // If there are no more keywords, disable the button
         if(keywords.length == 0 && oneMoreClick) {
             setOneMoreClick(false);
             return;
         }
 
+        // While there are keywords, remove the next keyword and
+        // update the text displayed on the screen
         if (keywords.length > 0) {
             const [nextKeyword, ...remainingKeywords] = keywords;
             const regex = new RegExp(`\\b${nextKeyword}\\b`, 'gi'); // Match whole words, case-insensitive
@@ -52,17 +63,7 @@ function StudyingActivity() {
         }
     }
 
-    // const activityManager = (text: string, keywords: string) => {
-    //     const parsedKeywords = parseKeywords(keywords);
-    //     let currentString = text;
-
-    //     const sessions = 5;
-
-
-
-    // }
-
-    // For modal
+    // For modal to add notes and keywords
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -86,25 +87,26 @@ function StudyingActivity() {
       const [input, setInput] = useState('');
       const textareaRef = useRef<HTMLTextAreaElement>(null);
     
+      // While the user is typing
       const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const typedValue = e.target.value;
-        // setInput(e.target.value);
 
-        //Replace underscores with letter
-         // Iterate through the user's input and replace underscores with matching characters
+        // Replace underscores with the letters the user types
+        // Iterate through the user's input and replace underscores with matching characters
         let updatedText = currentText.split("").map((char, index) => {
             if (char === "_" && typedValue[index] !== undefined) {
-            return typedValue[index]; // Replace underscore with the typed letter
+            return typedValue[index];
             }
-            return char; // Otherwise, keep the original character
-        }).join(""); // Join the array back into a string
+            return char;
+        }).join("");
         
-        setCurrentText(updatedText); // Update the current text with replacements
-        setInput(typedValue); // Update the input state
+        // Update the states
+        setCurrentText(updatedText);
+        setInput(typedValue);
 
       };
 
-      //New Typing stuff
+      // Displaying UI for typing like cursor and timer
 
       const paragraphRef = useRef<HTMLParagraphElement>(null);
 

@@ -17,11 +17,7 @@ describe('StudyingActivity Component', () => {
     const addNotesButton = screen.getByRole('button', { name: /add or adjust notes!/i });
     fireEvent.click(addNotesButton);
 
-    // Add text and keywords via the modal
-    // const textInput = screen.getByRole('textbox', { name: /text/i });
-    // const keywordInput = screen.getByRole('textbox', { name: /keywords/i });
-    // const submitButton = screen.getByText('Submit');
-
+    // Get the text and keywords textarea in the modal
     const textInput = screen.getByPlaceholderText('Notes go here');
     expect(textInput).toBeInTheDocument();
 
@@ -30,20 +26,18 @@ describe('StudyingActivity Component', () => {
 
     const submitButton = screen.getByRole('button', { name: /submit/i })
 
+    // Simulate adding notes, keywords and then submitting
     fireEvent.change(textInput, { target: { value: 'This is a test example' } });
     fireEvent.change(keywordInput, { target: { value: 'test,example' } });
     fireEvent.click(submitButton);
 
-    // Trigger removeNextKeyword
+    // Simulate pressing removeNextKeyword button
     const removeKeywordButton = screen.getByText('Remove next keyword');
     fireEvent.click(removeKeywordButton);
 
+    // Simulate pressing okay, got it button when showing errors
     const confirmErrors = screen.getByText('Okay, Got it');
     fireEvent.click(confirmErrors);
-
-    // Assert that the first keyword was removed
-    // const updatedText = screen.getByText('/This is a ____ example/i');
-    // expect(updatedText).toBeInTheDocument();
 
     const paragraph = screen.getByRole('paragraph');
     expect(paragraph.textContent).toBe('This is a ____ example');
@@ -52,8 +46,6 @@ describe('StudyingActivity Component', () => {
     fireEvent.click(removeKeywordButton);
     const confirmErrors2 = screen.getByText('Okay, Got it');
     fireEvent.click(confirmErrors2);
-    // const finalText = screen.getByText('This is a ____ _______');
-    // expect(finalText).toBeInTheDocument();
 
     const secondParagraph = screen.getByRole('paragraph');
     expect(secondParagraph.textContent).toBe('This is a ____ _______');
@@ -64,33 +56,28 @@ describe('StudyingActivity Component', () => {
     // Render the component
     render(<StudyingActivity />);
 
-    // Open the modal to add text and keywords
+    // Find add notes button to open the modal
     const addNotesButton = screen.getByRole('button', { name: /add or adjust notes!/i });
     fireEvent.click(addNotesButton);
 
-    // Add text and an empty keyword list via the modal
+    // Find the input for text, don't need keywords
     const textInput = screen.getByPlaceholderText('Notes go here');
     expect(textInput).toBeInTheDocument();
 
-    const keywordInput = screen.getByPlaceholderText('Keywords go here');
-    expect(keywordInput).toBeInTheDocument();
-
     const submitButton = screen.getByRole('button', { name: /submit/i })
 
+    // Set empty example with no keywords
     fireEvent.change(textInput, { target: { value: 'This is a test example' } });
-    // fireEvent.change(keywordInput, { target: { value: '' } });
     fireEvent.click(submitButton);
 
-    // Trigger removeNextKeyword with oneMoreClick set to true
+    // Trigger removeNextKeyword 
     const removeKeywordButton = screen.getByText('Remove next keyword');
     fireEvent.click(removeKeywordButton);
 
     const confirmErrors = screen.getByText('Okay, Got it');
     fireEvent.click(confirmErrors);
 
-    // fireEvent.click(removeKeywordButton);
-
-    // Assert that oneMoreClick has been updated
+    // Check that removeNextKeyword button is disabled
     const buttonDisabled = screen.getByText('Remove next keyword');
     expect(buttonDisabled).toBeDisabled();
   });
