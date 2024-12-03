@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getAuthUrl, getAccessToken } from "../utils/spotifyAuth";
-import Lyrics from '../Components/Lyrics/Lyrics';
+// import Lyrics from '../Components/Lyrics/Lyrics';
 import Template from '../Components/Template/Template';
 import {fetchLyricsWithTitle} from "../Components/Lyrics/Lyrics";
 import "../Components/TypingMenu/Typing.css"

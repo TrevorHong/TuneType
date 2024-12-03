@@ -7,7 +7,7 @@ import Settings from './pages/Settings.tsx';
 import MusicType from './pages/MusicType.tsx';
 import NormalType from './pages/NormalType.tsx';
 import Modes from './Components/Modes/Modes.tsx';
-import Studying from './pages/Studying.tsx'
+// import Studying from './pages/Studying.tsx'
 import StudyingActivity from './pages/StudyingActivity.tsx'
 
 function App() {

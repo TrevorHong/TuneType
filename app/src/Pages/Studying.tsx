@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import SavedStudyCard from '../Components/SavedStudyCards/SavedStudyCard';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';

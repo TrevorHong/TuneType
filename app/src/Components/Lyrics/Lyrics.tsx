@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useEffect } from 'react';
-import { getLyrics } from "@fantox01/lyrics-scraper";
+// import { useEffect } from 'react';
+// import { getLyrics } from "@fantox01/lyrics-scraper";
 import axios from 'axios';
 
 interface LyricsProps {
