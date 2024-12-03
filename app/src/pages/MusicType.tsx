@@ -15,11 +15,11 @@ function MusicType() {
   const [currentTrack, setCurrentTrack] = useState<any>(null); // Current track info
   const location = useLocation(); // Get URL parameters
   const [isPaused, setPaused] = useState(false);
-  const [isActive, setActive] = useState(false);
+  // const [isActive, setActive] = useState(false);
 
-  const handleLyricsUpdate = (newLyrics: string) => {
-    setLyrics(newLyrics);
-  };
+  // const handleLyricsUpdate = (newLyrics: string) => {
+  //   setLyrics(newLyrics);
+  // };
 
 
 
@@ -89,7 +89,7 @@ function MusicType() {
             setCurrentTrack(state.track_window.current_track);
             setPaused(state.paused);
             newPlayer.getCurrentState().then((state: any) => {
-              setActive(state ? true : false);
+              // setActive(state ? true : false);
             });
           }
         });
