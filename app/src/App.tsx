@@ -1,14 +1,14 @@
 import './App.css';
 import Navbar from './Components/Navbar/Navbar.tsx';
 import { Route, Routes } from 'react-router-dom';
-import Profile from './Pages/Profile.tsx';
-import Statistics from './Pages/Statistics.tsx';
-import Settings from './Pages/Settings.tsx';
-import MusicType from './Pages/MusicType.tsx';
-import NormalType from './Pages/NormalType.tsx';
+import Profile from './pages/Profile.tsx';
+import Statistics from './pages/Statistics.tsx';
+import Settings from './pages/Settings.tsx';
+import MusicType from './pages/MusicType.tsx';
+import NormalType from './pages/NormalType.tsx';
 import Modes from './Components/Modes/Modes.tsx';
-import Studying from './Pages/Studying.tsx'
-import StudyingActivity from './Pages/StudyingActivity.tsx'
+import Studying from './pages/Studying.tsx'
+import StudyingActivity from './pages/StudyingActivity.tsx'
 
 function App() {
  
