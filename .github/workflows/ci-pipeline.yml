@@ -17,8 +17,12 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: 18.x
+
     - name: Navigate to subdirectory
       run: cd app
+    - name: List files
+      run: ls -R
+
     - name: Install dependencies
       run: npm install 
     - name: Build file
