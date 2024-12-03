@@ -30,6 +30,8 @@ interface BasicModalProps {
     handleClose: () => void;
 }
 
+// Displays errors for the Study Mode
+// Formats them in outlined boxes, with expected text and what the user typed
 const StudyingErrorModal: React.FC<BasicModalProps> = ({open, errors, handleClose }) => {
 
   return (

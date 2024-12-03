@@ -6,7 +6,7 @@ import Modal from '../Components/Modal';
 
 import '/public/css/StudyingHomePage.css'
 
-
+// Unused static page, dropped due to lack of time
 function Studying() {
     const [open, setOpen] = useState(false);
 

@@ -25,6 +25,7 @@ interface BasicModalProps {
   handleSubmit: (input1: string, input2: string) => void;
 }
 
+// Modal for inserting notes and keywords
 const ModalV2: React.FC<BasicModalProps> = ({ open, handleClose, handleSubmit }) => {
   const [input1, setInput1] = React.useState("");
   const [input2, setInput2] = React.useState("");
