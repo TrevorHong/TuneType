@@ -5,6 +5,11 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "strict": false
+    "strict": true,
+    "jsx": "react",
+    
+    //For Testing
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   }
 }

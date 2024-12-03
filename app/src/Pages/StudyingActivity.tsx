@@ -3,16 +3,16 @@ import Button from '@mui/material/Button';
 import ModalV2 from '../Components/ModalV2';
 import StudyingErrorModal from '../Components/StudyingErrorModal/StudyingErrorModal';
 
-import '/public/css/StudyTyping.css'
+import '../../public/css/StudyTyping.css'
 // import '/src/Components/TypingMenu/Typing.css'
 
-import '/public/css/StudyingActivity.css'
+import '../../public/css/StudyingActivity.css'
 
 
 function StudyingActivity() {
 
     const parseKeywords = (keywords: string) => {
-        const parsedKeywords = keywords.split(',').map(part => part.trim());
+        const parsedKeywords = keywords.trim() ? keywords.split(',').map(part => part.trim()) : [];
 
         // console.log(parsedKeywords);
         return parsedKeywords;
