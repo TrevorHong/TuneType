@@ -9,7 +9,7 @@ const Typing = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [count, setCount] = useState(60);
   const [startTime, setStartTime] = useState(0);
-  // const [correctWords, setCorrectWords] = useState(0);
+  const [correctWords, setCorrectWords] = useState(0);
   const [wpm, setWpm] = useState(0); // Default WPM to 0
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -89,7 +89,7 @@ const Typing = () => {
     const correct = input
       .split(' ')
       .filter((word, index) => word === paragraph.split(' ')[index]).length;
-    // setCorrectWords(correct);
+    setCorrectWords(correct);
     calculateWPM(); // Recalculate WPM whenever input changes
   }, [input, paragraph]);
 
